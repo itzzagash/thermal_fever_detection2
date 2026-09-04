@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Screening Result{% endblock %}
+
+{% block content %}
+<section class="result-card {{ 'fever' if result.is_fever else 'normal' }}">
+    <img src="{{ image_url }}" alt="Uploaded thermal image" class="result-image">
+
+    <div class="result-details">
+        <h2>{{ result.label }}</h2>
+        <p class="confidence">Confidence: <strong>{{ result.confidence }}%</strong></p>
+        <p class="probability">Estimated fever likelihood: {{ result.fever_probability }}%</p>
+        <p class="mode">Mode: {{ result.model_mode }}</p>
+
+        {% if result.is_fever %}
+            <div class="alert-box">
+                🚨 Elevated temperature detected. Recommend secondary screening
+                with a clinical-grade thermometer and further medical evaluation.
+            </div>
+        {% else %}
+            <div class="ok-box">
+                ✅ Temperature appears within the normal range.
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="btn-secondary">Screen Another Image</a>
+    </div>
+</section>
+
+<p class="disclaimer">
+    Disclaimer: This tool provides a first-level, non-diagnostic temperature screening
+    estimate only. It does not replace clinical thermometry or a medical diagnosis.
+</p>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Screen a Thermal Image{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Non-Contact Fever Screening</h1>
+    <p>Upload a facial thermal image to classify it as <strong>Normal</strong> or
+       <strong>Elevated Temperature (Possible Fever)</strong> using a CNN-based
+       deep learning model.</p>
+
+    {% if not model_loaded %}
+    <div class="notice">
+        ⚠️ No trained CNN model found yet. The app is running in
+        <strong>demo heuristic mode</strong>. Train the model with
+        <code>model/train_model.py</code> (after adding a thermal image dataset under
+        <code>dataset/train</code> and <code>dataset/val</code>) for real classification results.
+    </div>
+    {% endif %}
+</section>
+
+<section class="upload-card">
+    <form action="{{ url_for('predict') }}" method="post" enctype="multipart/form-data">
+        <label for="thermal_image" class="file-label">
+            📤 Choose Thermal Image (JPG / PNG)
+        </label>
+        <input type="file" id="thermal_image" name="thermal_image" accept=".jpg,.jpeg,.png" required>
+        <button type="submit" class="btn-primary">Analyze Image</button>
+    </form>
+</section>
+
+<section class="info-grid">
+    <div class="info-card">
+        <h3>1. Acquisition</h3>
+        <p>Infrared thermal image captured of the facial region.</p>
+    </div>
+    <div class="info-card">
+        <h3>2. Preprocessing</h3>
+        <p>Noise reduction, resizing, and normalization of the thermal image.</p>
+    </div>
+    <div class="info-card">
+        <h3>3. CNN Classification</h3>
+        <p>Convolutional Neural Network extracts spatial features and classifies temperature status.</p>
+    </div>
+    <div class="info-card">
+        <h3>4. Alert</h3>
+        <p>Elevated cases are logged and flagged for further medical evaluation.</p>
+    </div>
+</section>
+{% endblock %}

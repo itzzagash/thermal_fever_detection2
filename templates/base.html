@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Thermal Fever & Infection Detection{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="nav-content">
+            <a href="{{ url_for('index') }}" class="brand">
+                🌡️ Thermal Fever &amp; Infection Detection
+            </a>
+            <nav>
+                <a href="{{ url_for('index') }}">Screen</a>
+                <a href="{{ url_for('history') }}">History</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-box">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>Thermal Image Based Fever &amp; Infection Detection System &mdash; CNN + Flask</p>
+    </footer>
+</body>
+</html>
